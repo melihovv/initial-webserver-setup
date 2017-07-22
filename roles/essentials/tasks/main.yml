@@ -33,5 +33,6 @@
     owner: root
     group: root
     mode: 0644
+  become: true
   notify:
    - Restart unattended upgrades
