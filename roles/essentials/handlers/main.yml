@@ -1,0 +1,14 @@
+---
+
+- name: Start ntp
+  service:
+    name: ntp
+    state: started
+    enabled: yes
+  become: true
+
+- name: Restart unattended upgrades
+  service:
+    name: unattended-upgrades
+    state: restarted
+  become: true

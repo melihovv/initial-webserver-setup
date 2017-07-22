@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - name: essentials
+      tags:
+        - essentials
+
+#    - name: geerlingguy.composer
+#      become: true
+
+  tasks:
+      - name: Hello
+        debug:
+          msg: 'Hi {{ user }}'

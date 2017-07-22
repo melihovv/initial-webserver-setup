@@ -1,0 +1,38 @@
+---
+
+- name: Install essential packages
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: latest
+  with_items:
+    - unattended-upgrades
+    - git
+    - ntp
+    - vim
+    - tmux
+    - htop
+    - curl
+  become: true
+  notify:
+    - Start ntp
+
+- name: Enable unattended upgrades
+  copy:
+    src: 10periodic
+    dest: /etc/apt/apt.conf.d/10periodic
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Add unattended upgrade configuration
+  copy:
+      src: 50unattended-upgrades
+      dest: /etc/apt/apt.conf.d/50unattended-upgrades
+      owner: root
+      group: root
+      mode: 0644
+  notify:
+   - Restart unattended upgrades
+

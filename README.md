@@ -22,3 +22,14 @@ To fix it run
 ```bash
 ansible-playbook initial-setup.yml
 ```
+
+## Environment variables
+
+Copy `vars/main.yml.example` to `vars/main.yml` and change
+variable values for your needs.
+
+## Run
+
+```bash
+ansible-playbook main.yml
+```
