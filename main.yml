@@ -14,10 +14,6 @@
       tags:
         - timezone
 
-#    - name: geerlingguy.composer
-#      become: true
-
-  tasks:
-    - name: Hello
-      debug:
-        msg: 'Hi {{ user }}'
+    - name: user
+      tags:
+        - user
