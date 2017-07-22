@@ -28,6 +28,13 @@ ansible-playbook initial-setup.yml
 Copy `vars/main.yml.example` to `vars/main.yml` and change
 variable values for your needs.
 
+To generate password use
+
+```bash
+sudo apt-get install -y whois
+mkpasswd --method=SHA-512
+```
+
 ## Run
 
 ```bash
