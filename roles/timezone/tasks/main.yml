@@ -1,0 +1,6 @@
+---
+
+- name: Set timezone
+  timezone:
+      name: "{{ timezone }}"
+  notify: Restart cron
