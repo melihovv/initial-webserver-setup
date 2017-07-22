@@ -4,6 +4,7 @@
   group:
     name: sudo
     state: present
+  become: true
 
 - name: Ensure sudo group has sudo privileges
   lineinfile:
@@ -12,6 +13,7 @@
     regexp: "^%sudo"
     line: "%sudo ALL=(ALL:ALL) ALL"
     validate: "visudo -cf %s"
+  become: true
 
 - name: Add new super user
   user:
@@ -22,8 +24,10 @@
     state: present
     shell: /bin/bash
     update_password: always
+  become: true
 
 - name: Add ssh key for new super user
   authorized_key:
     user: "{{ user }}"
     key: "{{ lookup('file', public_key) }}"
+  become: true

@@ -6,11 +6,13 @@
     - vars/main.yml
 
   roles:
+    - name: user
+      tags: user
+
     - name: essentials
+      remote_user: "{{ user }}"
       tags: essentials
 
     - name: timezone
+      remote_user: "{{ user }}"
       tags: timezone
-
-    - name: user
-      tags: user
