@@ -7,13 +7,10 @@
 
   roles:
     - name: essentials
-      tags:
-        - essentials
+      tags: essentials
 
     - name: timezone
-      tags:
-        - timezone
+      tags: timezone
 
     - name: user
-      tags:
-        - user
+      tags: user
