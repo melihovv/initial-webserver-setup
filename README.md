@@ -33,3 +33,9 @@ variable values for your needs.
 ```bash
 ansible-playbook main.yml
 ```
+
+To run only specific roles
+
+```bash
+ansible-playbook main.yml --roles=user
+```
