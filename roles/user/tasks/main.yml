@@ -9,14 +9,14 @@
   lineinfile:
     dest: /etc/sudoers
     state: present
-    regexp: '^%sudo'
-    line: '%sudo ALL=(ALL:ALL) ALL'
-    validate: 'visudo -cf %s'
+    regexp: "^%sudo"
+    line: "%sudo ALL=(ALL:ALL) ALL"
+    validate: "visudo -cf %s"
 
 - name: Add new super user
   user:
-    name: '{{ user }}'
-    password: '{{ password }}'
+    name: "{{ user }}"
+    password: "{{ password }}"
     groups: sudo
     append: yes
     state: present
@@ -25,5 +25,5 @@
 
 - name: Add ssh key for new super user
   authorized_key:
-    user: '{{ user }}'
-    key: '{{ lookup("file", public_key) }}'
+    user: "{{ user }}"
+    key: "{{ lookup('file', public_key) }}"
