@@ -11,6 +11,9 @@
     - name: user
       tags: user
 
+    - name: ssh
+      tags: ssh
+
   pre_tasks:
     - name: Install python2
       raw: sudo apt install -y python-minimal
