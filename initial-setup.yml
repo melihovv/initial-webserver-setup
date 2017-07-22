@@ -4,19 +4,19 @@
   gather_facts: False
 
   tasks:
-      - name: Install python2
-        raw: sudo apt install -y python-minimal
-        become: true
+    - name: Install python2
+      raw: sudo apt install -y python-minimal
+      become: true
 
-      - name: Install aptitude
-        apt:
-          name: aptitude
-          state: present
-        become: true
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: present
+      become: true
 
-      - name: Update all packages
-        apt:
-          update_cache: yes
-          upgrade: safe
-          autoremove: yes
-        become: true
+    - name: Update all packages
+      apt:
+        update_cache: yes
+        upgrade: safe
+        autoremove: yes
+      become: true

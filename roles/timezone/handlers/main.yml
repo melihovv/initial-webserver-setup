@@ -2,6 +2,6 @@
 
 - name: Restart cron
   service:
-      name: cron
-      state: restarted
+    name: cron
+    state: restarted
   become: true

@@ -18,6 +18,6 @@
 #      become: true
 
   tasks:
-      - name: Hello
-        debug:
-          msg: 'Hi {{ user }}'
+    - name: Hello
+      debug:
+        msg: 'Hi {{ user }}'
