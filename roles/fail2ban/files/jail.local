@@ -1,0 +1,11 @@
+[DEFAULT]
+
+bantime  = 86400 ; 1 day
+findtime = 86400 ; 1 day
+maxretry = 3
+
+[sshd]
+
+enabled  = true
+port     = ssh
+logpath  = /var/log/auth.log

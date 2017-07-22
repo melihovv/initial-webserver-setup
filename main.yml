@@ -15,3 +15,6 @@
 
     - name: iptables
       tags: iptables
+
+    - name: fail2ban
+      tags: fail2ban
