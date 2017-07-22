@@ -9,23 +9,34 @@
 
   roles:
     - name: user
+      remote_user: "{{ test_user | success | ternary(omit, 'root') }}"
       tags: user
 
     - name: ssh
+      remote_user: "{{ user }}"
       tags: ssh
 
   pre_tasks:
+    - name: Check if user specified in config is installed
+      local_action: "command ssh -q -o BatchMode=yes -o ConnectTimeout=3 {{ inventory_hostname }} 'echo ok'"
+      register: test_user
+      ignore_errors: true
+      changed_when: false
+
     - name: Install python2
+      remote_user: "{{ test_user | success | ternary(omit, 'root') }}"
       raw: sudo apt install -y python-minimal
       become: true
 
     - name: Install aptitude
+      remote_user: "{{ test_user | success | ternary(omit, 'root') }}"
       apt:
         name: aptitude
         state: present
       become: true
 
     - name: Update all packages
+      remote_user: "{{ test_user | success | ternary(omit, 'root') }}"
       apt:
         update_cache: yes
         upgrade: safe
