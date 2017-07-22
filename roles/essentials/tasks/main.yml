@@ -2,7 +2,7 @@
 
 - name: Install essential packages
   apt:
-    name: "{{ item }}"
+    name: '{{ item }}'
     update_cache: yes
     state: latest
   with_items:
