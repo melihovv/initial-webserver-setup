@@ -13,3 +13,10 @@
           name: aptitude
           state: present
         become: true
+
+      - name: Update all packages
+        apt:
+          update_cache: yes
+          upgrade: safe
+          autoremove: yes
+        become: true
