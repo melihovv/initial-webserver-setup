@@ -12,3 +12,6 @@
 
     - name: timezone
       tags: timezone
+
+    - name: iptables
+      tags: iptables

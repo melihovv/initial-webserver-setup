@@ -1,0 +1,16 @@
+---
+
+- name: Install iptables-persistent
+  become: true
+  environment:
+      DEBIAN_FRONTEND: noninteractive
+  apt:
+      pkg: iptables-persistent
+      update_cache: yes
+
+- name: Copy rules.v4
+  become: true
+  copy:
+      src: rules.v4
+      dest: /etc/iptables/rules.v4
+  notify: Restart iptables
