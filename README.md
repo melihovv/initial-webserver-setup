@@ -17,11 +17,13 @@ ansible-galaxy install -r requirements.yml
 ## Initial setup
 
 By default on ubuntu 16.04 there is no python 2 and aptitude.
-To fix it run
+To fix it run:
 
 ```bash
 ansible-playbook initial-setup.yml
 ```
+
+Beside it this playbook also creates user and configures ssh server.
 
 ## Environment variables
 
