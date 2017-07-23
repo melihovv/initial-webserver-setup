@@ -7,5 +7,3 @@ maxretry = 3
 [sshd]
 
 enabled  = true
-port     = ssh
-logpath  = /var/log/auth.log
