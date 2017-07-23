@@ -1,4 +1,21 @@
-# Initial Server Setup
+# Initial Ubuntu 16.04 Server Setup
+
+## What this playbook does
+
+- installs python2 and aptitude
+- upgrades all software
+- creates user with sudo rights
+- configures sshd: disables root login and password authentication, also allows to login only user created on prev step
+- installs
+  - git
+  - ntp
+  - vim
+  - tmux
+  - htop
+  - curl
+- configures automatic security updates (do not reloads server, only installs updates)
+- setups timezone
+- configures iptables and fail2ban
 
 ## inventory file
 
