@@ -4,3 +4,4 @@
   timezone:
     name: "{{ timezone }}"
   notify: Restart cron
+  become: true
