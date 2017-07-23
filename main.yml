@@ -22,3 +22,7 @@
     - name: kamaln7.swapfile
       tags: swapfile
       become: true
+
+    - name: geerlingguy.nodejs
+      tags: geerlingguy.nodejs
+      become: true

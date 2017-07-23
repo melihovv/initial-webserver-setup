@@ -7,3 +7,6 @@ public_key: ~/.ssh/id_rsa.pub
 timezone: 'Europe/Moscow'
 
 swapfile_size: 1GB
+
+nodejs_npm_global_packages:
+  - name: yarn
