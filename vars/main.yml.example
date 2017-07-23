@@ -5,3 +5,5 @@ password: $6$kgX6rY4/$EOL3Q50Yt8DbriTsqNZpWGVCSSibUVJIaS1BnCadVknfN8.1XXr1MCdkvE
 public_key: ~/.ssh/id_rsa.pub
 
 timezone: 'Europe/Moscow'
+
+swapfile_size: 1GB

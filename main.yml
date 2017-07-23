@@ -18,3 +18,6 @@
 
     - name: fail2ban
       tags: fail2ban
+
+    - name: kamaln7.swapfile
+      tags: swapfile
