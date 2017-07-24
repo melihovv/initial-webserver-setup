@@ -16,6 +16,7 @@
 - configures automatic security updates (do not reloads server, only installs updates)
 - setups timezone
 - configures iptables and fail2ban
+- create swap file
 
 ## inventory file
 
