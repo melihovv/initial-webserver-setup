@@ -24,5 +24,9 @@
       become: true
 
     - name: geerlingguy.nodejs
-      tags: geerlingguy.nodejs
+      tags: nodejs
+      become: true
+
+    - name: nginx
+      tags: nginx
       become: true

@@ -1,0 +1,18 @@
+server {
+      listen 80 deferred;
+
+      root /var/www/html;
+      server_name {{ domain }};
+      index index.html index.php;
+
+      access_log /var/log/nginx/{{ domain }}.log;
+      error_log  /var/log/nginx/{{ domain }}-error.log error;
+
+      charset utf-8;
+
+      include h5bp/basic.conf;
+
+      location / {
+          try_files $uri $uri/ =404;
+      }
+}

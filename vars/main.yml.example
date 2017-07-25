@@ -10,3 +10,5 @@ swapfile_size: 1GB
 
 nodejs_npm_global_packages:
   - name: yarn
+
+domain: example.com

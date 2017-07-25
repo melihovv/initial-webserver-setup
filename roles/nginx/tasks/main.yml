@@ -1,0 +1,83 @@
+---
+
+- name: Install nginx
+  apt:
+    pkg: nginx
+    state: installed
+    update_cache: true
+  notify:
+    - Start nginx
+  become: true
+
+- name: Add h5bp config
+  copy:
+    src: h5bp
+    dest: /etc/nginx/
+    owner: root
+    group: root
+  become: true
+
+- name: Add nginx config
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+  become: true
+
+- name: Add nginx mime types
+  copy:
+    src: mime.types
+    dest: /etc/nginx/mime.types
+    owner: root
+    group: root
+  become: true
+
+- name: Disable default site
+  file:
+    dest: /etc/nginx/sites-enabled/default
+    state: absent
+  become: true
+
+- name: Remove default site
+  file:
+    dest: /etc/nginx/sites-available/default
+    state: absent
+  become: true
+
+- name: Copy no-default site
+  copy:
+    src: no-default
+    dest: /etc/nginx/sites-available/
+    owner: root
+    group: root
+  become: true
+
+- name: Copy site configs
+  template:
+    src: "{{ item }}"
+    dest: /etc/nginx/sites-available/
+    owner: root
+    group: root
+  with_fileglob:
+    - "*.j2"
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Find all sites on remote
+  find:
+    paths: /etc/nginx/sites-available
+  become: true
+  register: sites
+
+- name: Enable sites
+  file:
+    src: "{{ item.path }}"
+    dest: /etc/nginx/sites-enabled/{{ domain }}.conf
+    state: link
+  with_items:
+    - "{{ sites.files }}"
+  become: true
+  notify:
+    - Reload nginx
