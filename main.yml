@@ -21,3 +21,4 @@
 
     - name: kamaln7.swapfile
       tags: swapfile
+      become: true
