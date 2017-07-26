@@ -30,3 +30,11 @@
     - name: nginx
       tags: nginx
       become: true
+
+    - name: php
+      tags: php
+      become: true
+
+    - name: geerlingguy.composer
+      tags: composer
+      become: true

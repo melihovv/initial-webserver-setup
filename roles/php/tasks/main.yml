@@ -1,0 +1,45 @@
+---
+
+- name: Install php
+  apt:
+      pkg: "{{ item }}"
+      state: installed
+      update_cache: yes
+  with_items:
+    - php7.0-cli
+    - php7.0-fpm
+    - php7.0-curl
+    - php7.0-gd
+    - php7.0-intl
+    - php7.0-mbstring
+    - php7.0-mysql
+    - php7.0-xml
+    - php7.0-zip
+  notify:
+    - Start php-fpm
+  become: true
+
+- name: Add default resource pool
+  copy:
+    src: www.conf.j2
+    dest:  /etc/php/7.0/fpm/pool.d/www.conf
+    owner: root
+    group: root
+  become: true
+  notify: Restart php-fpm
+
+- name: Add default resource pool
+  copy:
+    src: www.conf.j2
+    dest:  /etc/php/7.0/fpm/pool.d/www.conf
+    owner: root
+    group: root
+  become: true
+  notify: Restart php-fpm
+
+- name: Copy index.php
+  copy:
+    src: index.php
+    dest:  /var/www/html/index.php
+    owner: www-data
+    group: www-data
