@@ -17,14 +17,6 @@
     group: root
   become: true
 
-- name: Add nginx config
-  copy:
-    src: nginx.conf
-    dest: /etc/nginx/nginx.conf
-    owner: root
-    group: root
-  become: true
-
 - name: Add nginx mime types
   copy:
     src: mime.types
@@ -32,6 +24,16 @@
     owner: root
     group: root
   become: true
+
+- name: Add nginx config
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+  become: true
+  notify:
+    - Reload nginx
 
 - name: Disable default site
   file:
@@ -45,22 +47,20 @@
     state: absent
   become: true
 
-- name: Copy no-default site
-  copy:
-    src: no-default
-    dest: /etc/nginx/sites-available/
-    owner: root
-    group: root
+- name: Remove default html file
+  file:
+    dest: /var/www/html/index.nginx-debian.html
+    state: absent
   become: true
 
 - name: Copy site configs
   template:
     src: "{{ item }}"
-    dest: /etc/nginx/sites-available/
+    dest: "/etc/nginx/sites-available/{{ item | basename | regex_replace('\\.j2','') }}"
     owner: root
     group: root
   with_fileglob:
-    - "*.j2"
+    - "templates/*.j2"
   become: true
   notify:
     - Reload nginx
@@ -74,7 +74,7 @@
 - name: Enable sites
   file:
     src: "{{ item.path }}"
-    dest: /etc/nginx/sites-enabled/{{ domain }}.conf
+    dest: "/etc/nginx/sites-enabled/{{ item.path | basename }}"
     state: link
   with_items:
     - "{{ sites.files }}"
