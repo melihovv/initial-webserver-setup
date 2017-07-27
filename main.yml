@@ -38,3 +38,7 @@
     - name: geerlingguy.composer
       tags: composer
       become: true
+
+    - name: geerlingguy.mysql
+      tags: mysql
+      become: true
