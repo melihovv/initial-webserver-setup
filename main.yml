@@ -26,6 +26,9 @@
     - name: certbot
       tags: ssl
 
+    - name: ssl
+      tags: ssl
+
     - name: geerlingguy.nodejs
       tags: nodejs
       become: true

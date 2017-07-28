@@ -1,0 +1,21 @@
+---
+
+- name: Check if certificate already exists
+  stat:
+    path: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+  become: true
+  register: letsencrypt_cert
+
+- name: Generate certificate
+  shell: "certbot certonly -d {{ domain.split() | join('-d ') }} --email {{ email }} {{ certbot_extra_args }}"
+  become: true
+  when: not letsencrypt_cert.stat.exists
+
+- name: Setup renew hook
+  lineinfile:
+    dest: "/etc/letsencrypt/renewal/{{ domain }}.conf"
+    insertafter: "^server ="
+    line: "renew_hook = {{ renew_hook }}"
+    state: present
+  become: true
+  when: not letsencrypt_cert.stat.exists

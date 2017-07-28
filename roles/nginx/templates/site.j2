@@ -1,5 +1,11 @@
 server {
-      listen 80 deferred;
+    listen 80 deferred;
+    server_name {{ domain }};
+    return 301 https://{{ domain }}$request_uri;
+}
+
+server {
+      listen 443 deferred ssl;
 
       root /var/www/html;
       server_name {{ domain }};
@@ -11,6 +17,11 @@ server {
       charset utf-8;
 
       include h5bp/basic.conf;
+
+      ssl_certificate           /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
+      ssl_trusted_certificate   /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
+      ssl_certificate_key       /etc/letsencrypt/live/{{ domain }}/privkey.pem;
+      include h5bp/directive-only/ssl.conf;
 
       location / {
           try_files $uri $uri/ /index.php$is_args$args;

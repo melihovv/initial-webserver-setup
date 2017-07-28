@@ -1,0 +1,5 @@
+---
+
+email: example@example.com
+certbot_extra_args: --standalone --no-eff-email -n --agree-tos --keep --expand  --preferred-challenges tls-sni --test-cert
+renew_hook: systemctl reload nginx
