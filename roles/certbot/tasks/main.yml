@@ -19,6 +19,3 @@
     state: present
     update_cache: yes
   become: true
-
-- include: renew-cron.yml
-  when: certbot_auto_renew
