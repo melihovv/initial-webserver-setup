@@ -57,7 +57,7 @@ variable values for your needs.
 To see all available variables take a look at roles' `defaults/main.yml`. Also
 visit external role github pages for additional documentation.
 
-To generate password use
+### To generate password use
 
 ```bash
 sudo apt-get install -y whois
@@ -70,8 +70,14 @@ mkpasswd --method=SHA-512
 ansible-playbook main.yml
 ```
 
-To run only specific roles
+### To run only specific roles
 
 ```bash
-ansible-playbook main.yml --roles=user
+ansible-playbook main.yml --tags=user,nginx
+```
+
+### To exclude specific roles
+
+```bash
+ansible-playbook main.yml --skip-tags=user,nginx
 ```
