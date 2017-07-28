@@ -52,7 +52,8 @@ Beside it this playbook also creates user and configures ssh server.
 ## Environment variables
 
 Copy `vars/main.yml.example` to `vars/main.yml` and change
-variable values for your needs.
+variable values for your needs. For security reasons you may want to encrypt
+this file using ansible-vault: `ansible-vault encrypt vars/main.yml`.
 
 To see all available variables take a look at roles' `defaults/main.yml`. Also
 visit external role github pages for additional documentation.
