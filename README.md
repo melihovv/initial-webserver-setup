@@ -17,6 +17,11 @@
 - setups timezone
 - configures iptables and fail2ban
 - create swap file
+- setup ssl certificate with letsencrypt
+- install node.js, npm and yarn
+- install nginx
+- install php and composer
+- install mysql
 
 ## inventory file
 
@@ -48,6 +53,9 @@ Beside it this playbook also creates user and configures ssh server.
 
 Copy `vars/main.yml.example` to `vars/main.yml` and change
 variable values for your needs.
+
+To see all available variables take a look at roles' `defaults/main.yml`. Also
+visit external role github pages for additional documentation.
 
 To generate password use
 
