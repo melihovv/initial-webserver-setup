@@ -16,6 +16,8 @@
     owner: root
     group: root
   become: true
+  tags:
+    - long
 
 - name: Add nginx mime types
   copy:
@@ -31,6 +33,7 @@
     dest: /etc/nginx/nginx.conf
     owner: root
     group: root
+    validate: "nginx -t -c %s"
   become: true
   notify:
     - Reload nginx
@@ -59,6 +62,7 @@
     dest: "/etc/nginx/sites-available/{{ item | basename | regex_replace('\\.j2','') }}"
     owner: root
     group: root
+    validate: "echo 'http { include \'%s\'; }' > /tmp/n && nginx -t -c /tmp/n"
   with_fileglob:
     - "templates/*.j2"
   become: true
