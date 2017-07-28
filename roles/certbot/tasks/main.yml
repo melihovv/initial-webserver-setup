@@ -1,0 +1,24 @@
+---
+
+- name: Install software-properties-common
+  apt:
+    name: software-properties-common
+    state: present
+    update_cache: yes
+  become: true
+
+- name: Add certbot ppa
+  apt_repository:
+    repo: ppa:certbot/certbot
+    state: present
+  become: true
+
+- name: Install certbot
+  apt:
+    name: python-certbot-nginx
+    state: present
+    update_cache: yes
+  become: true
+
+- include: renew-cron.yml
+  when: certbot_auto_renew

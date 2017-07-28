@@ -23,6 +23,9 @@
       tags: swapfile
       become: true
 
+    - name: certbot
+      tags: ssl
+
     - name: geerlingguy.nodejs
       tags: nodejs
       become: true

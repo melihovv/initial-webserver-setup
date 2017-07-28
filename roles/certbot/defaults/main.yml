@@ -1,0 +1,6 @@
+---
+
+certbot_auto_renew: true
+certbot_auto_renew_user: "{{ ansible_user }}"
+certbot_auto_renew_hour: 3
+certbot_auto_renew_minute: 30
