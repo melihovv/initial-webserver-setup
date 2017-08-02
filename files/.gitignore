@@ -1,2 +1,4 @@
 *
 !.gitignore
+!sparse-checkout
+!storage

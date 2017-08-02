@@ -1,0 +1,56 @@
+---
+
+- hosts: all
+  remote_user: "{{ user }}"
+
+  vars:
+    domain_path: "/var/www/{{ domain }}"
+    releases_dir: "{{ domain_path }}/releases"
+    current_dir: "{{ domain_path }}/current"
+    persistent_dir: "{{ domain_path }}/persistent"
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - name: essentials
+      tags: essentials
+
+    - name: timezone
+      tags: timezone
+
+    - name: iptables
+      tags: iptables
+
+    - name: fail2ban
+      tags: fail2ban
+
+    - name: kamaln7.swapfile
+      tags: swapfile
+      become: true
+
+    - name: certbot
+      tags: ssl
+
+    - name: ssl
+      tags: ssl
+
+    - name: geerlingguy.nodejs
+      tags: nodejs
+      become: true
+
+    - name: nginx
+      tags: nginx
+      become: true
+
+    - name: php
+      tags: php
+      become: true
+
+    - name: geerlingguy.composer
+      tags: composer
+      become: true
+
+    - name: geerlingguy.mysql
+      tags: mysql
+      become: true

@@ -1,0 +1,201 @@
+---
+
+- hosts: all
+  remote_user: "{{ user }}"
+
+  vars:
+    domain_path: "/var/www/{{ domain }}"
+    releases_dir: "{{ domain_path }}/releases"
+    current_dir: "{{ domain_path }}/current"
+    persistent_dir: "{{ domain_path }}/persistent"
+
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - name: Current build number
+      local_action: shell date +%Y-%m-%d-%H-%M-%S
+      register: current_time
+      run_once: true
+
+    - name: Register release variables
+      set_fact:
+        new_release_name: "{{ current_time.stdout }}"
+        new_release_dir: "{{ releases_dir }}/{{ current_time.stdout }}"
+
+    - name: Create new release directory
+      file:
+        path: "{{ new_release_dir }}"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+      become: true
+
+    - name: Create persistent directory
+      file:
+        path: "{{ persistent_dir }}"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+      notify: Copy storage
+      become: true
+
+  tasks:
+    # repo
+    - name: Clone repo
+      git:
+        dest: "{{ new_release_dir }}"
+        repo: "{{ repo_url }}"
+        update: no
+      become: true
+
+    - name: Configure sparse checkout
+      git_config:
+        repo: "{{ new_release_dir }}"
+        name: config core.sparsecheckout
+        scope: local
+        value: 'true'
+      notify: Copy sparse-checkout
+      become: true
+
+    - name: Reset folder to only contain sparse structure
+      shell: git read-tree -mu HEAD
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    - name: Mark new release
+      copy:
+        content: "{{ new_release_name }}"
+        dest: "{{ new_release_dir }}/public/release-name.txt"
+
+    # permissions
+    - name: Set correct folders owner and group
+      command: find "{{ new_release_dir }}" -exec chown "{{ user }}:www-data" {} \;
+      become: true
+
+    - name: Set correct permissions on folders
+      command: find "{{ new_release_dir }}" -type d ! -perm 0770 -exec chmod 0770 {} \;
+
+    - name: Set correct permissions on files
+      command: find "{{ new_release_dir }}" -type f ! -perm 0640 -exec chmod 0640 {} \;
+
+    - name: Check that bootstrap/cache folder is writable
+      file:
+        path: "{{ new_release_dir }}/bootstrap/cache"
+        state: directory
+        mode: 0770
+
+    - name: Set correct permissions on files in bootstrap/cache
+      command: find "{{ new_release_dir }}/bootstrap/cache" -type f ! -perm 0660 -exec chmod 0660 {} \;
+
+    # storage directory
+    - name: Remove new release storage dir
+      file:
+        path: "{{ new_release_dir }}/storage"
+        state: absent
+
+    - name: Link new release storage directory to persistent/storage
+      file:
+        src: "{{ persistent_dir }}/storage"
+        dest: "{{ new_release_dir }}/storage"
+        state: link
+
+    # .env
+    - name: Copy .env file
+      copy:
+        src: .env
+        dest: "{{ persistent_dir }}/.env"
+
+    - name: Link .env file
+      file:
+        src: "{{ persistent_dir }}/.env"
+        dest: "{{ new_release_dir }}/.env"
+        state: link
+
+    # check .env file
+    - name: php artisan config:env-validator
+      shell: php artisan config:env-validator
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    # composer
+    - name: Install composer deps
+      composer:
+        command: install
+        working_dir: "{{ new_release_dir }}"
+        prefer_dist: true
+        optimize_autoloader: true
+        no_dev: true
+        no_scripts: true
+
+    # yarn and assets generation
+    - name: Install npm deps
+      shell: yarn
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    - name: Build assets
+      shell: npm run production
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    # migrate db
+    # TODO: Backup db.
+    - name: php artisan migrate --force
+      shell: php artisan migrate --force
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    # optimize app
+    - name: php artisan clear-compiled
+      shell: php artisan clear-compiled
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    - name: php artisan optimize
+      shell: php artisan optimize
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    - name: php artisan config:clear
+      shell: php artisan config:clear
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    - name: php artisan cache:clear
+      shell: php artisan cache:clear
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    - name: php artisan view:clear
+      shell: php artisan view:clear
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    - name: php artisan config:cache
+      shell: php artisan config:cache
+      args:
+        chdir: "{{ new_release_dir }}"
+
+    # Bless new release!
+    - name: Set new release as current
+      file:
+        src: "{{ current_dir }}"
+        dest: "{{ new_release_dir }}"
+        state: link
+      # TODO do we need to restart php-fpm? Check!
+      notify: Restart php-fpm
+
+    - name: Remove all but the 10 most recent
+      shell: ls -dt "{{ releases_dir }}/*" | tail -n +11 | xargs -d "\n" rm -rf;
+
+  handlers:
+    - name: Copy sparse-checkout
+      copy:
+        src: sparse-checkout
+        dest: "{{ new_release_dir }}/.git/info/sparse-checkout"
+
+    - name: Copy storage
+      copy:
+        src: storage
+        dest: "{{ persistent_dir }}/storage"
