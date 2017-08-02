@@ -36,10 +36,3 @@
     group: root
   become: true
   notify: Restart php-fpm
-
-- name: Copy index.php
-  copy:
-    src: index.php
-    dest:  /var/www/html/index.php
-    owner: www-data
-    group: www-data
