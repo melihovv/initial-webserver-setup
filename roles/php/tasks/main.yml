@@ -19,6 +19,14 @@
     - Start php-fpm
   become: true
 
+- name: Ensure php-fpm cgi.fix_pathinfo=0
+  lineinfile:
+    dest: /etc/php/7.0/fpm/php.ini
+    regexp: "^(.*)cgi.fix_pathinfo="
+    line: cgi.fix_pathinfo=0
+  become: true
+  notify: Restart php-fpm
+
 - name: Add default resource pool
   template:
     src: "{{ item }}"
