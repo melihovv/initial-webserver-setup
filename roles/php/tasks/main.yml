@@ -20,10 +20,12 @@
   become: true
 
 - name: Add default resource pool
-  copy:
-    src: www.conf.j2
-    dest:  /etc/php/7.0/fpm/pool.d/www.conf
+  template:
+    src: "{{ item }}"
+    dest: "/etc/php/7.0/fpm/pool.d/{{ item | basename | regex_replace('\\.j2','') }}"
     owner: root
     group: root
+  with_fileglob:
+    - "templates/*.j2"
   become: true
   notify: Restart php-fpm
