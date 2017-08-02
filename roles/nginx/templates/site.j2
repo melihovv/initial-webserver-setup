@@ -7,7 +7,7 @@ server {
 server {
       listen 443 deferred ssl;
 
-      root /var/www/html;
+      root /var/www/{{ domain }}/public;
       server_name {{ domain }};
       index index.php;
 
