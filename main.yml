@@ -3,6 +3,9 @@
 - hosts: all
   remote_user: "{{ user }}"
 
+  vars:
+    domain_path: "/var/www/{{ domain }}"
+
   vars_files:
     - vars/main.yml
 
@@ -48,3 +51,49 @@
     - name: geerlingguy.mysql
       tags: mysql
       become: true
+
+  pre_tasks:
+    - name: Clone repo
+      git:
+        dest: "{{ domain_path }}"
+        repo: "{{ repo_url }}"
+        update: no
+      become: true
+
+  tasks:
+    - name: Install composer deps
+      composer:
+        command: install
+        working_dir: "{{ domain_path }}"
+        prefer_dist: true
+        optimize_autoloader: true
+        no_dev: true
+      become: true
+
+    - name: Copy .env file
+      copy:
+        src: .env
+        dest: "{{ domain_path }}/.env"
+      become: true
+
+    - name: Set correct folders owner and group
+      command: find "{{ domain_path }}" -exec chown "{{ user }}:www-data" {} \;
+      become: true
+
+    - name: Set correct permissions on folders
+      command: find "{{ domain_path }}" -type d ! -perm 0777 -exec chmod 0777 {} \;
+
+    - name: Set correct permissions on files
+      command: find "{{ domain_path }}" -type f ! -perm 0777 -exec chmod 0777 {} \;
+
+    - name: Check that storage and bootstrap/cache folders are writable
+      file:
+        path: "{{ domain_path }}/{{ item }}"
+        state: directory
+        recurse: true
+        owner: "{{ user }}"
+        group: www-data
+        mode: 0777
+      with_items:
+        - storage
+        - bootstrap/cache

@@ -14,6 +14,10 @@ nodejs_npm_global_packages:
 
 domain: example.com
 
+repo_url: https://github.com/melihovv/laravel-starter-kit.git
+
+env_file_path: /path/to/.env
+
 mysql_user_name: root
 mysql_user_password: root
 
