@@ -27,12 +27,3 @@
     group: root
   become: true
   notify: Restart php-fpm
-
-- name: Add default resource pool
-  copy:
-    src: www.conf.j2
-    dest:  /etc/php/7.0/fpm/pool.d/www.conf
-    owner: root
-    group: root
-  become: true
-  notify: Restart php-fpm
