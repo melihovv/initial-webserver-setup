@@ -57,7 +57,7 @@
         state: directory
         owner: "{{ user }}"
         group: "{{ user }}"
-        mode: 0700
+        mode: 0711
       become: true
 
     - name: Create releases directory
@@ -66,7 +66,7 @@
         state: directory
         owner: "{{ user }}"
         group: "{{ user }}"
-        mode: 0700
+        mode: 0711
       become: true
 
     - name: Create persistent directory
@@ -75,7 +75,7 @@
         state: directory
         owner: "{{ user }}"
         group: "{{ user }}"
-        mode: 0700
+        mode: 0711
       become: true
 
     - name: Copy storage

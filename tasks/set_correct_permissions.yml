@@ -1,7 +1,7 @@
 ---
 
 - name: Set correct permissions on folders
-  shell: find "{{ dir }}" -type d ! -perm 0770 -exec chmod 0770 {} \;
+  shell: find "{{ dir }}" -type d ! -perm 0771 -exec chmod 0771 {} \;
 
 - name: Set correct permissions on files
   shell: find "{{ dir }}" -type f ! -perm 0640 -exec chmod 0640 {} \;
