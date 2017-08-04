@@ -1,0 +1,14 @@
+---
+
+- name: Check that folder is writable
+  file:
+    path: "{{ dir_to_check }}"
+    state: directory
+    mode: 02770
+    recurse: true
+  become: true
+
+- name: Set correct permissions on files in folder
+  shell: find "{{ dir_to_check }}" -type f ! -perm 0660 -exec chmod 0660 {} \;
+  become: true
+

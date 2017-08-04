@@ -1,0 +1,5 @@
+---
+
+- name: Set correct folders owner and group
+  command: find "{{ dir_to_chown }}" -exec chown "{{ user }}:www-data" {} \;
+  become: true

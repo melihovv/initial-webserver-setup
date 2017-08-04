@@ -1,0 +1,17 @@
+---
+
+- name: Copy .env file
+  copy:
+    src: .env
+    dest: "{{ persistent_dir }}/.env"
+
+- name: Link .env file
+  file:
+    src: "{{ persistent_dir }}/.env"
+    dest: "{{ new_release_dir }}/.env"
+    state: link
+
+- name: php artisan config:env-validator
+  shell: php artisan config:env-validator
+  args:
+    chdir: "{{ new_release_dir }}"

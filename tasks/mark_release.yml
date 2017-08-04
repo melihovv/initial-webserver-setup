@@ -1,0 +1,7 @@
+---
+
+- name: Mark new release
+  copy:
+    content: "{{ new_release_name }}"
+    dest: "{{ new_release_dir }}/public/release-name.txt"
+  become: true

@@ -3,14 +3,9 @@
 - hosts: all
   remote_user: "{{ user }}"
 
-  vars:
-    domain_path: "/var/www/{{ domain }}"
-    releases_dir: "{{ domain_path }}/releases"
-    current_dir: "{{ domain_path }}/current"
-    persistent_dir: "{{ domain_path }}/persistent"
-
   vars_files:
     - vars/main.yml
+    - vars/dirs.yml
 
   roles:
     - name: essentials
@@ -54,3 +49,45 @@
     - name: geerlingguy.mysql
       tags: mysql
       become: true
+
+  tasks:
+    - name: Create base directory
+      file:
+        path: "{{ domain_path }}"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0700
+      become: true
+
+    - name: Create releases directory
+      file:
+        path: "{{ releases_dir }}"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0700
+      become: true
+
+    - name: Create persistent directory
+      file:
+        path: "{{ persistent_dir }}"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0700
+      become: true
+
+    - name: Copy storage
+      copy:
+        src: storage
+        dest: "{{ persistent_dir }}/"
+      become: true
+
+    - include: tasks/set_owner_and_group.yml
+      vars:
+        dir_to_chown: "{{ persistent_dir }}/storage"
+
+    - include: tasks/check_that_folder_is_writable.yml
+      vars:
+        dir_to_check: "{{ persistent_dir }}/storage"

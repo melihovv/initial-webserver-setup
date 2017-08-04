@@ -1,0 +1,11 @@
+---
+
+- name: Install npm deps
+  shell: /usr/local/lib/npm/bin/yarn
+  args:
+    chdir: "{{ new_release_dir }}"
+
+- name: Build assets
+  shell: npm run production
+  args:
+    chdir: "{{ new_release_dir }}"

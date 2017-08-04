@@ -1,0 +1,4 @@
+---
+
+- name: Remove all but the 10 most recent
+  shell: ls -dt "{{ releases_dir }}/*" | tail -n +11 | xargs -d "\n" rm -rf;

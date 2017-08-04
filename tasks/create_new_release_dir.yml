@@ -1,0 +1,9 @@
+---
+
+- name: Create new release directory
+  file:
+    path: "{{ new_release_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+  become: true
