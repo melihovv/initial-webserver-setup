@@ -1,0 +1,14 @@
+---
+
+- name: Remove new release
+  file:
+    path: "{{ new_release_dir }}"
+    state: absent
+
+- name: Restore latest successful release
+  file:
+    src: "{{ latest_release.path }}"
+    dest: "{{ current_dir }}"
+    state: link
+    force: true
+  when: latest_release is defined

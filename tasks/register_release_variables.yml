@@ -9,3 +9,14 @@
   set_fact:
     new_release_name: "{{ current_time.stdout }}"
     new_release_dir: "{{ releases_dir }}/{{ current_time.stdout }}"
+
+- name: Get all releases dir
+  find:
+    paths: "{{ releases_dir }}"
+    file_type: directory
+  register: found_releases
+
+- name: Register latest release
+  set_fact:
+    latest_release: "{{ found_releases.files | sort(attribute='path',reverse=true) | first }}"
+  when: found_releases.examined|int > 0
