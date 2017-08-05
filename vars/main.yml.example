@@ -14,6 +14,11 @@ nodejs_npm_global_packages:
 
 domain: example.com
 
+domain_path: "/var/www/{{ domain }}"
+releases_dir: "{{ domain_path }}/releases"
+current_dir: "{{ domain_path }}/current"
+persistent_dir: "{{ domain_path }}/persistent"
+
 repo_url: https://github.com/melihovv/laravel-starter-kit.git
 
 env_file_path: /path/to/.env
