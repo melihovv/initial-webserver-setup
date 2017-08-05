@@ -13,6 +13,7 @@
     - tmux
     - htop
     - curl
+    - unzip
   become: true
   notify:
     - Start ntp
