@@ -40,3 +40,4 @@ mysql_users: []
 #     priv: *.*:USAGE
 
 migrate_command: php artisan migrate --force
+migrate_rollback_command: php artisan migrate:rollback --force

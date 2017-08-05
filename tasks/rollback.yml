@@ -1,5 +1,11 @@
 ---
 
+- name: Rollback migrations
+  shell: "{{ migrate_rollback_command | default('php artisan migrate:rollback --force') }}"
+  args:
+    chdir: "{{ new_release_dir }}"
+  when: migrations_output is defined and migrations_output.stdout.find('Nothing to migrate.') == -1
+
 - name: Remove new release
   file:
     path: "{{ new_release_dir }}"

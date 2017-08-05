@@ -9,3 +9,4 @@
   shell: "{{ migrate_command | default('php artisan migrate --force') }}"
   args:
     chdir: "{{ new_release_dir }}"
+  register: migrations_output
