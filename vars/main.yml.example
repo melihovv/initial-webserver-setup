@@ -1,48 +1,86 @@
 ---
 
+# Name of user which will be created on server
 user: melihovv
+
+# User password
 password: $6$kgX6rY4/$EOL3Q50Yt8DbriTsqNZpWGVCSSibUVJIaS1BnCadVknfN8.1XXr1MCdkvEbnfS6x7xfYYSghbH7uS.JIXzIy./
+
+# Public key to copy to remote server
 public_key: ~/.ssh/id_rsa.pub
+
+# Email to which letsencrypt will send notifications
 email: example@example.com
 
+# Timezone to set on server
 timezone: 'Europe/Moscow'
 
-swapfile_size: 1GB
-
-nodejs_npm_global_packages:
-  - name: yarn
-
+# Domain of your site
 domain: example.com
 
+# Where site will be located
 domain_path: "/var/www/{{ domain }}"
+
+# Where releases will be located
 releases_dir: "{{ domain_path }}/releases"
+
+# Where link to current release will be located
 current_dir: "{{ domain_path }}/current"
+
+# Where directory with persistent data will be located
 persistent_dir: "{{ domain_path }}/persistent"
 
+# Link to your git repository of your site
 repo_url: https://github.com/melihovv/laravel-starter-kit.git
 
-env_file_path: /path/to/.env
+# Path to your .env file
+env_file_path: "{{ persistent }}/.env"
+
+# Command to run migrations
+# Alternatives: php artisan migrate:refresh --seed
+migrate_command: php artisan migrate --force
+
+# Command to rollback migrations
+migrate_rollback_command: php artisan migrate:rollback --force
+
+# Extra args passed to certbot for certificate generation. Remove `--test-cert`
+# if you don't want to use staging server to obtain sertificate. For more info
+# about these args see https://certbot.eff.org/docs/using.html#certbot-command-line-options
+certbot_extra_args: --standalone --no-eff-email -n --agree-tos --keep --expand  --preferred-challenges tls-sni --test-cert
+
+# What to do after certificate was refreshed?
+renew_hook: systemctl reload nginx
+
+# Swap file size (see https://github.com/kamaln7/ansible-swapfile)
+swapfile_size: 1GB
+
+# Which npm packages install globally
+# For more info about available variables see https://github.com/geerlingguy/ansible-role-nodejs
+nodejs_npm_global_packages:
+  - name: yarn
 
 mysql_user_name: root
 mysql_user_password: root
 
-# The default root user installed by mysql - almost always root
+# Mysql user name and password
+# More info at https://github.com/geerlingguy/ansible-role-mysql
+mysql_user_name: root
+mysql_user_password: root
+
+# Mysql root user name and password
 mysql_root_username: root
 mysql_root_password: root
 
-# Databases.
+# Databases to create in mysql.
 mysql_databases: []
 #   - name: example
-#     collation: utf8_general_ci
-#     encoding: utf8
+#     collation: utf8mb4_unicode_ci
+#     encoding: utf8mb4
 #     replicate: 1
 
-# Users.
+# Users to create in mysql.
 mysql_users: []
 #   - name: example
 #     host: 127.0.0.1
 #     password: secret
 #     priv: *.*:USAGE
-
-migrate_command: php artisan migrate --force
-migrate_rollback_command: php artisan migrate:rollback --force
