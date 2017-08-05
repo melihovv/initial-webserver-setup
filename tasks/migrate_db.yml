@@ -1,9 +1,8 @@
 ---
 
 # TODO: backup db
-# TODO migrate:fresh and alternatives
 
-- name: php artisan migrate --force
-  shell: php artisan migrate --force
+- name: Run migrations
+  shell: "{{ migrate_command | default('php artisan migrate --force') }}"
   args:
     chdir: "{{ new_release_dir }}"

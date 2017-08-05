@@ -20,8 +20,8 @@
       - include: tasks/install_composer_deps.yml
       - include: tasks/link_env.yml
       - include: tasks/generate_assets.yml
-      - include: tasks/migrate_db.yml
       - include: tasks/optimize_app.yml
+      - include: tasks/migrate_db.yml
       - include: tasks/bless_new_release.yml
       - include: tasks/leave_most_10_recent_releases.yml
       rescue:

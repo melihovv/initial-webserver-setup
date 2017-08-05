@@ -38,3 +38,5 @@ mysql_users: []
 #     host: 127.0.0.1
 #     password: secret
 #     priv: *.*:USAGE
+
+migrate_command: php artisan migrate --force
