@@ -1,6 +1,9 @@
 ---
 
-# TODO: backup db
+- name: Backup db
+  shell: php artisan backup:run
+  args:
+    chdir: "{{ new_release_dir }}"
 
 - name: Run migrations
   shell: "{{ migrate_command | default('php artisan migrate --force') }}"
