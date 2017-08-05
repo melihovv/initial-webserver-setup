@@ -16,8 +16,7 @@
     owner: root
     group: root
   become: true
-  tags:
-    - long
+  tags: long
 
 - name: Add nginx mime types
   copy:
