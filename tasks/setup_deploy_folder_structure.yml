@@ -1,0 +1,42 @@
+---
+
+- name: Create base directory
+  file:
+    path: "{{ domain_path }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0711
+  become: true
+
+- name: Create releases directory
+  file:
+    path: "{{ releases_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0711
+  become: true
+
+- name: Create persistent directory
+  file:
+    path: "{{ persistent_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0711
+  become: true
+
+- name: Copy storage
+  copy:
+    src: storage
+    dest: "{{ persistent_dir }}/"
+  become: true
+
+- include: tasks/set_owner_and_group.yml
+  vars:
+    dir_to_chown: "{{ persistent_dir }}/storage"
+
+- include: tasks/check_that_folder_is_writable.yml
+  vars:
+    dir_to_check: "{{ persistent_dir }}/storage"
