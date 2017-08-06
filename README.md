@@ -44,9 +44,9 @@ to login only user created on previous step
 
 - clone repository
 - set correct permissions
-- link `/path/to/repository/storage` to `/path/to/domain/persistent/storage`
+- link `/path/to/release/storage` to `/path/to/domain/persistent/storage`
 - install composer dependencies
-- link `/path/to/repository/.env` to `/path/to/domain/persistent/.env`
+- link `/path/to/release/.env` to `/path/to/domain/persistent/.env`
 - install npm dependencies and generate assets
 - optimize laravel application
 - backup database
