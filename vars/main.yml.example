@@ -33,9 +33,6 @@ persistent_dir: "{{ domain_path }}/persistent"
 # Link to your git repository of your site
 repo_url: https://github.com/melihovv/laravel-starter-kit.git
 
-# Path to your .env file
-env_file_path: "{{ persistent }}/.env"
-
 # Command to run migrations
 # Alternatives: php artisan migrate:refresh --seed
 migrate_command: php artisan migrate --force
