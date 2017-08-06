@@ -4,6 +4,7 @@
   shell: php artisan backup:run
   args:
     chdir: "{{ new_release_dir }}"
+  when: backup_db
 
 - name: Run migrations
   shell: "{{ migrate_command | default('php artisan migrate --force') }}"

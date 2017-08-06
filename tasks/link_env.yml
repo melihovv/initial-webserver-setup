@@ -15,3 +15,4 @@
   shell: php artisan config:env-validator
   args:
     chdir: "{{ new_release_dir }}"
+  when: validate_env

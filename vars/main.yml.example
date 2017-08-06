@@ -40,6 +40,14 @@ migrate_command: php artisan migrate --force
 # Command to rollback migrations
 migrate_rollback_command: php artisan migrate:rollback --force
 
+# Validate your .env file
+# melihovv/laravel-env-validator should be installed in your project
+validate_env: false
+
+# Backup database before migration
+# spatie/laravel-backup should be installed in your project
+backup_db: false
+
 # Extra args passed to certbot for certificate generation. Remove `--test-cert`
 # if you don't want to use staging server to obtain sertificate. For more info
 # about these args see https://certbot.eff.org/docs/using.html#certbot-command-line-options
