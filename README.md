@@ -102,7 +102,7 @@ sudo apt-get install -y whois
 mkpasswd --method=SHA-512
 ```
 
-## Nginx and php-fpm configs
+### Nginx and php-fpm configs
 
 - Site config for nginx place in `roles/nginx/templates/yoursite.j2`
 - Php-fpm pool config place in `roles/php/templates/yoursite.conf.j2`
