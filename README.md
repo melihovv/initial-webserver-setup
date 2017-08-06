@@ -102,6 +102,13 @@ sudo apt-get install -y whois
 mkpasswd --method=SHA-512
 ```
 
+## Nginx and php-fpm configs
+
+- Site config for nginx place in `roles/nginx/templates/yoursite.j2`
+- Php-fpm pool config place in `roles/php/templates/yoursite.conf.j2`
+- Default configs are available in this
+[gist](https://gist.github.com/melihovv/ff11a76ee8b4fba28ecb4b681cb91818)
+
 ### Initial setup
 
 By default on ubuntu 16.04 there is no python 2 and aptitude. Without those
@@ -138,17 +145,6 @@ ansible-playbook setup.yml --skip-tags=user,nginx
 ```bash
 ansible-playbook deploy.yml
 ```
-
-## How to customize playbooks
-
-- To specify custom site config for nginx place it in
-`roles/nginx/templates/yoursite.j2`
-- To specify custom php-fpm pool config place it in
-`roles/php/templates/yoursite.conf.j2`
-- Default configs are available in this
-[gist](https://gist.github.com/melihovv/ff11a76ee8b4fba28ecb4b681cb91818)
-
-Also feel free to read all *.yml files and change them according to your needs.
 
 ## Security
 
