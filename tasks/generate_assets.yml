@@ -1,5 +1,9 @@
 ---
 
+- name: Copy node_modules
+  shell: cp -r "{{ latest_release.path }}/node_modules" "{{ new_release_dir }}/node_modules"
+  when: latest_release is defined
+
 - name: Install npm deps
   shell: /usr/local/lib/npm/bin/yarn
   args:
