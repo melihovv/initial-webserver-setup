@@ -2,7 +2,7 @@
 
 - name: Copy node_modules
   shell: cp -r "{{ latest_release.path }}/node_modules" "{{ new_release_dir }}/node_modules"
-  when: latest_release is defined
+  when: copy_node_modules and latest_release is defined
 
 - name: Configure yarn
   shell: yarn config set ignore-engines true

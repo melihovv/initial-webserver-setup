@@ -2,7 +2,7 @@
 
 - name: Copy vendor
   shell: cp -r "{{ latest_release.path }}/vendor" "{{ new_release_dir }}/vendor"
-  when: latest_release is defined
+  when: copy_vendor and latest_release is defined
 
 - name: Install composer deps
   composer:
