@@ -4,6 +4,11 @@
   shell: cp -r "{{ latest_release.path }}/node_modules" "{{ new_release_dir }}/node_modules"
   when: latest_release is defined
 
+- name: Configure yarn
+  shell: yarn config set ignore-engines true
+  args:
+    chdir: "{{ new_release_dir }}"
+
 - name: Install npm deps
   shell: /usr/local/lib/npm/bin/yarn
   args:
