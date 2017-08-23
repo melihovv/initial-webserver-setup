@@ -11,3 +11,4 @@
   args:
     chdir: "{{ new_release_dir }}"
   register: migrations_output
+  when: migrate
