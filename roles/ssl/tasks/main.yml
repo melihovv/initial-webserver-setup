@@ -7,7 +7,7 @@
   register: letsencrypt_cert
 
 - name: Generate certificate
-  shell: "certbot certonly -d {{ domain.split() | join('-d ') }} --email {{ email }} {{ certbot_extra_args }}"
+  shell: "certbot certonly -d {{ domain.split() | join(' -d ') }} --email {{ email }} {{ certbot_extra_args }}"
   become: true
   when: not letsencrypt_cert.stat.exists
 
